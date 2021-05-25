@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "780648862225",
+    "firebase_url": "https://wallpaper-10557.firebaseio.com",
+    "project_id": "wallpaper-10557",
+    "storage_bucket": "wallpaper-10557.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780648862225:android:fbfcf4765f247a055517b0",
+        "android_client_info": {
+          "package_name": "com.ducky.wallpaper.topanime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "780648862225-nvi695jepjdr83lf14dg8olptsi31ur7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ducky.wallpaper.topanime",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "780648862225-5nh6f1a55muot70qs861f7u6edk1tdjk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZyzyrqnmIBf0uBCNxfti4dsSP5UlW7vc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "780648862225-5nh6f1a55muot70qs861f7u6edk1tdjk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780648862225:android:11aa2bb48f618f2e",
+        "android_client_info": {
+          "package_name": "wallpaper.app.ducky.com.deadlysinswallpaper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "780648862225-gaidue5lhr01ibl0rjhl02f3c4dckd1v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "wallpaper.app.ducky.com.deadlysinswallpaper",
+            "certificate_hash": "6d2223f0156b4067b75a1275b554faa205d8384d"
+          }
+        },
+        {
+          "client_id": "780648862225-5nh6f1a55muot70qs861f7u6edk1tdjk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZyzyrqnmIBf0uBCNxfti4dsSP5UlW7vc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "780648862225-5nh6f1a55muot70qs861f7u6edk1tdjk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-2089873880879307~9135639980"
+    }
+  ],
+  "configuration_version": "1"
+}
