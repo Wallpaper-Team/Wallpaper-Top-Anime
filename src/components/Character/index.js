@@ -18,8 +18,10 @@ const Character = ({item, onItemClickHandler}) => {
           color="#2196F3"
         />
       )}
-      <ProfilePicture uri={item.imageUrl} />
-      <Text style={styles.name}>{item.name}</Text>
+      <ProfilePicture uri={item.imageUrl} size={80} />
+      <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
+        {item.name}
+      </Text>
     </TouchableOpacity>
   );
 };

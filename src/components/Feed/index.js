@@ -31,7 +31,7 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    // fetchData();
+    fetchData();
   }, [navigation]);
 
   const onRefreshHandler = () => {
@@ -53,44 +53,44 @@ const Feed = () => {
   };
 
   return (
-    <FlatList
-      data={feeds}
-      onRefresh={onRefreshHandler}
-      refreshing={isFetching}
-      renderItem={({item, index}) => (
-        <Post key={item.key + index} post={item} />
-      )}
-      ListHeaderComponent={() => (
-        <FlatList
-          data={characters}
-          keyExtractor={({key, index}) => key + index}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => {
-            return (
-              <Character
-                item={item}
-                onItemClickHandler={() => onItemCharacterClickHandler(item)}
-              />
-            );
-          }}
-        />
-      )}
-      ListEmptyComponent={() => (
-        <View
-          style={{
-            flex: 1,
-            height: 300,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text>No feed, let's create the first one</Text>
-          <TouchableOpacity onPress={createFirstPostHandler}>
-            <Ionicons name="ios-create-outline" size={50} />
-          </TouchableOpacity>
-        </View>
-      )}
-    />
+    <View>
+      <FlatList
+        data={characters}
+        keyExtractor={({key, index}) => key + index}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        renderItem={({item}) => {
+          return (
+            <Character
+              item={item}
+              onItemClickHandler={() => onItemCharacterClickHandler(item)}
+            />
+          );
+        }}
+      />
+      <FlatList
+        data={feeds}
+        onRefresh={onRefreshHandler}
+        refreshing={isFetching}
+        renderItem={({item, index}) => (
+          <Post key={item.key + index} post={item} />
+        )}
+        ListEmptyComponent={() => (
+          <View
+            style={{
+              flex: 1,
+              height: 300,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text>No feed, let's create the first one</Text>
+            <TouchableOpacity onPress={createFirstPostHandler}>
+              <Ionicons name="ios-create-outline" size={50} />
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+    </View>
   );
 };
 
