@@ -1,8 +1,8 @@
-import {CLEAR, SELECT_CHARACTER, SET_CHARACTERS} from '../actions/character';
+import {SELECT_CHARACTER, SET_CHARACTERS} from '../actions/character';
 
 const initialState = {
   characters: [],
-  selected: [],
+  selected: null,
 };
 
 const characterReducer = (state = initialState, action) => {
@@ -13,19 +13,9 @@ const characterReducer = (state = initialState, action) => {
         characters: action.characters,
       };
     case SELECT_CHARACTER:
-      const index = state.selected.indexOf(action.item);
-      if (index != -1) {
-        state.selected.splice(index, 1);
-      } else {
-        state.selected.push(action.item);
-      }
       return {
         ...state,
-      };
-    case CLEAR:
-      return {
-        ...state,
-        selected: [],
+        selected: action.item,
       };
     default:
       return state;

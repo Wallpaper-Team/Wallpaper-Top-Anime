@@ -10,7 +10,7 @@ const Character = ({item, onItemClickHandler}) => {
 
   return (
     <TouchableOpacity style={styles.container} onPress={onItemClickHandler}>
-      {selected.indexOf(item) != -1 && (
+      {selected === item && (
         <Ionicons
           style={styles.checked}
           name="checkmark-done-circle"

@@ -21,10 +21,9 @@ import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import Header from '../../components/Post/components/Header';
+import ProfilePicture from '../../components/ProfilePicture';
 import * as helper from '../../database/database-helper';
 import * as dataActions from '../../store/actions/data';
-import Character1 from '../../components/Character1';
-import ImagePicker from 'react-native-customized-image-picker';
 
 const SERVER_URL = 'https://api.imgbb.com/1/upload';
 const KEY_API = '02308d06cea46acb65cdd23ccd651afb';
@@ -58,7 +57,7 @@ const CreatePostScreen = (props) => {
   const [canPost, setCanPost] = useState(false);
   const [caption, setCaption] = useState();
   const [images, setImages] = useState([]);
-  const [tags, setTags] = useState([]);
+  const [tag, setTag] = useState(null);
   const [isPosting, setIsPosting] = useState(false);
 
   const characters = useSelector((state) => state.character.characters);
@@ -69,7 +68,7 @@ const CreatePostScreen = (props) => {
     setCaption('');
     setImages([]);
     setIsPosting(false);
-    setTags([]);
+    setTag(null);
   };
 
   const postHandler = async () => {
@@ -97,7 +96,7 @@ const CreatePostScreen = (props) => {
       },
       createdAt: -new Date().getTime(),
       images: listImage,
-      tags: tags,
+      tag: tag,
       caption: caption,
     };
     const ref = database().ref('Posts/').push();
@@ -141,10 +140,8 @@ const CreatePostScreen = (props) => {
   }, [props.route.params?.images]);
 
   useEffect(() => {
-    setCanPost(
-      caption && caption.length != 0 && images.length != 0 && tags.length != 0,
-    );
-  }, [caption, images, tags]);
+    setCanPost(caption && caption.length != 0 && images.length != 0 && !!tag);
+  }, [caption, images, tag]);
 
   useEffect(() => {
     props.navigation.setOptions({
@@ -161,27 +158,15 @@ const CreatePostScreen = (props) => {
 
   const pickImageHandler = () => {
     if (isPosting) return;
-    // launchImageLibrary({mediaType: 'photo'}, (response) => {
-    //   if (!response.uri) return;
-    //   setImages(images.concat([response.uri]));
-    // });
-    ImagePicker.openPicker({
-      multiple: true,
-    }).then((images) => {
-      console.log(images);
+    launchImageLibrary({mediaType: 'photo'}, (response) => {
+      if (!response.uri) return;
+      setImages(images.concat([response.uri]));
     });
   };
 
   const onItemClickHandler = (item) => {
     if (isPosting) return;
-    setTags((tags) => {
-      const index = tags.indexOf(item.name);
-      if (index == -1) {
-        return [...tags, item.name];
-      }
-      tags.splice(index, 1);
-      return [...tags];
-    });
+    setTag((tag) => (tag === item ? null : item));
   };
 
   return (
@@ -207,15 +192,9 @@ const CreatePostScreen = (props) => {
       />
       {images.length != 0 && (
         <View style={styles.tagContainer}>
-          <FlatList
-            data={tags}
-            keyExtractor={(item) => item}
-            renderItem={({item}) => (
-              <Text style={styles.hashTag}>{`#${item}`}</Text>
-            )}
-            horizontal
-          />
-          <Text style={styles.tagTitle}>#Tag characters in your images</Text>
+          <Text style={styles.tagTitle}>
+            {`#${tag ? tag.name : 'Tag characters in your images'}`}
+          </Text>
           <FlatList
             data={characters}
             keyExtractor={({key}) => key}
@@ -224,11 +203,25 @@ const CreatePostScreen = (props) => {
             style={styles.container}
             renderItem={({item}) => {
               return (
-                <Character1
-                  character={item}
-                  onItemClickHandler={() => onItemClickHandler(item)}
-                  isSelected={tags.indexOf(item.name) != -1}
-                />
+                <TouchableOpacity
+                  onPress={() => onItemClickHandler(item)}
+                  style={{width: 80}}>
+                  {tag === item && (
+                    <Ionicons
+                      style={styles.checked}
+                      name="checkmark-done-circle"
+                      size={24}
+                      color="#2196F3"
+                    />
+                  )}
+                  <ProfilePicture uri={item.imageUrl} size={80} />
+                  <Text
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                    style={styles.name}>
+                    {item.name}
+                  </Text>
+                </TouchableOpacity>
               );
             }}
           />
@@ -272,12 +265,19 @@ export const screenOptions = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  name: {
+    textAlign: 'center',
+  },
+  checked: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
   container: {
     flex: 1,
   },
   inputArea: {
-    marginHorizontal: 10,
-    marginVertical: 20,
+    margin: 10,
   },
   tagContainer: {
     flex: 1,
@@ -289,7 +289,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'cornflowerblue',
   },
   tagTitle: {
-    marginTop: 20,
     fontWeight: 'bold',
     fontSize: 14,
     paddingLeft: 10,

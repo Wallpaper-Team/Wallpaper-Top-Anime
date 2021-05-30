@@ -22,7 +22,9 @@ const Feed = () => {
     if (!characters.length) {
       dispatch(characterActions.fetchCharacters());
     }
-    // dispatch(dataActions.fetchData());
+    if (!feeds.length) {
+      // dispatch(dataActions.fetchData());
+    }
     setIsFetching(false);
   };
 
@@ -35,39 +37,19 @@ const Feed = () => {
   }, [navigation]);
 
   const onRefreshHandler = () => {
-    // fetchData();
+    fetchData();
   };
 
   const onItemCharacterClickHandler = (item) => {
     dispatch(characterActions.selectCharacter(item));
-    fetchData();
   };
 
   const createFirstPostHandler = () => {
     navigation.navigate('Post');
   };
 
-  const clearHandler = () => {
-    dispatch(characterActions.clearSelect());
-    fetchData();
-  };
-
   return (
     <View>
-      <FlatList
-        data={characters}
-        keyExtractor={({key, index}) => key + index}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        renderItem={({item}) => {
-          return (
-            <Character
-              item={item}
-              onItemClickHandler={() => onItemCharacterClickHandler(item)}
-            />
-          );
-        }}
-      />
       <FlatList
         data={feeds}
         onRefresh={onRefreshHandler}
@@ -88,6 +70,22 @@ const Feed = () => {
               <Ionicons name="ios-create-outline" size={50} />
             </TouchableOpacity>
           </View>
+        )}
+        ListHeaderComponent={() => (
+          <FlatList
+            data={characters}
+            keyExtractor={({key, index}) => key + index}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({item}) => {
+              return (
+                <Character
+                  item={item}
+                  onItemClickHandler={() => onItemCharacterClickHandler(item)}
+                />
+              );
+            }}
+          />
         )}
       />
     </View>
