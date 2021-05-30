@@ -9,8 +9,8 @@ const characterReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CHARACTERS:
       return {
-        ...state,
         characters: action.characters,
+        selected: action.characters[0],
       };
     case SELECT_CHARACTER:
       return {

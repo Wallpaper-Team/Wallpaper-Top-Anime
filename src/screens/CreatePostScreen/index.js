@@ -78,12 +78,6 @@ const CreatePostScreen = (props) => {
       images.map(async (image) => {
         const url = await upLoadImage(image);
         if (url) {
-          const ref = database().ref('Images/').push();
-          ref.set({
-            imageUrl: url,
-            createdAt: -new Date().getTime(),
-            likeCount: 0,
-          });
           listImage.push(url);
         }
       }),
@@ -96,12 +90,10 @@ const CreatePostScreen = (props) => {
       },
       createdAt: -new Date().getTime(),
       images: listImage,
-      tag: tag,
       caption: caption,
     };
-    const ref = database().ref('Posts/').push();
+    const ref = database().ref(`Posts/${tag.name}`).push();
     ref.set(post);
-    dispatch(dataActions.insertHead(post));
     const userKey = await helper.lookUpUserFromUserId(userInfo.userId);
     const userRef = database().ref(`Users/${userKey}`);
     userRef.child('postCount').transaction((count) => {

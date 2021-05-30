@@ -17,9 +17,16 @@ const Post = ({post}) => {
         imageUri={post.user.userPhoto}
         name={post.user.userName}
         viewProfilePictureHandler={viewProfilePictureHandler}
+        createdAt={post.createdAt}
+        caption={post.caption}
       />
       <Slider images={post.images} handlePress />
-      <Footer item={post} />
+      <Footer
+        item={post.key}
+        images={post.images}
+        likeCnt={post.likeCount}
+        commentCount={post.commentCount}
+      />
     </View>
   );
 };

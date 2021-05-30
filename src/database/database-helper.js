@@ -34,27 +34,20 @@ export const createUserIfNeccessary = async (user) => {
 };
 
 // Toggle like state
-export const toggleLikeState = (userId, item, type) => {
-  const key = userId + '_' + item;
-  database()
-    .ref(`Likes/${key}`)
-    .transaction((val) => {
-      if (val) {
-        database()
-          .ref(`${type}/${item}/likeCount`)
-          .transaction((likeCount) => {
-            if (!likeCount) return 0;
-            return likeCount - 1;
-          });
-        return null;
-      } else {
-        database()
-          .ref(`${type}/${item}/likeCount`)
-          .transaction((likeCount) => {
-            if (!likeCount) return 1;
-            return likeCount + 1;
-          });
-        return 1;
-      }
-    });
+export const toggleLikeState = (isLiked, item, type) => {
+  if (isLiked) {
+    database()
+      .ref(`${type}/${item}/likeCount`)
+      .transaction((likeCount) => {
+        if (!likeCount) return 0;
+        return likeCount - 1;
+      });
+  } else {
+    database()
+      .ref(`${type}/${item}/likeCount`)
+      .transaction((likeCount) => {
+        if (!likeCount) return 1;
+        return likeCount + 1;
+      });
+  }
 };

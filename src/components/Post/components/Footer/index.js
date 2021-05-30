@@ -1,8 +1,6 @@
-import database from '@react-native-firebase/database';
 import {useNavigation} from '@react-navigation/native';
-import moment from 'moment';
-import React, {useEffect, useState} from 'react';
-import {Alert, Text, TouchableWithoutFeedback, View} from 'react-native';
+import React, {useState} from 'react';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import Share from 'react-native-share';
 import ADIcon from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
@@ -13,30 +11,17 @@ import {toggleLikeState} from '../../../../database/database-helper';
 import * as fileActions from '../../../../store/actions/tempFiles';
 import styles from './styles';
 
-const Footer = ({item}) => {
-  const userInfo = useSelector((state) => state.auth);
+const Footer = ({item, likeCnt, commentCount, images}) => {
+  console.log(item);
+  const selected = useSelector((state) => state.character.selected);
   const [isLiked, setIsLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(item.likeCount);
-  const [commentCount, setCommentCount] = useState(item.commentCount);
+  const [likeCount, setLikeCount] = useState(likeCnt);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const key = userInfo.userId + '_' + item.key;
-    database()
-      .ref(`Likes/${key}`)
-      .once('value', (snapshot) => {
-        if (snapshot.val()) {
-          setIsLiked(true);
-        } else {
-          setIsLiked(false);
-        }
-      });
-  }, []);
-
   const onFavoriteHandler = () => {
-    toggleLikeState(userInfo.userId, item.key, 'Posts');
+    toggleLikeState(isLiked, item, `Posts/${selected.name}`);
     setIsLiked((isLiked) => {
       if (isLiked) {
         setLikeCount((likeCount) => likeCount - 1);
@@ -48,13 +33,13 @@ const Footer = ({item}) => {
   };
 
   const onCommentHandler = () => {
-    navigation.navigate('Comment', {item: item.key});
+    navigation.navigate('Comment', {item: item});
   };
 
   const onShareHandler = () => {
     const shareOptions = {
       title: 'Share images',
-      url: item.images[0].full,
+      url: images[0].full,
       failOnCancel: false,
     };
 
@@ -66,7 +51,7 @@ const Footer = ({item}) => {
   };
 
   const navigateHanlder = () => {
-    dispatch(fileActions.setFiles(item.images));
+    dispatch(fileActions.setFiles(images));
     navigation.navigate('Favorite', {
       screen: 'Favor',
     });
@@ -83,60 +68,35 @@ const Footer = ({item}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.iconsContainer}>
-        <View style={styles.leftIcons}>
-          <TouchableWithoutFeedback onPress={onFavoriteHandler}>
-            <View style={styles.button}>
-              {isLiked ? (
-                <ADIcon name="heart" size={24} color={'#e73838'} />
-              ) : (
-                <ADIcon name="hearto" size={24} color={'#545454'} />
-              )}
-              <Text
-                style={isLiked ? styles.textSelectedButton : styles.textButton}>
-                Love
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={onCommentHandler}>
-            <View style={styles.button}>
-              <Fontisto name="comment" size={21} color={'#545454'} />
-              <Text style={styles.textButton}>Comment</Text>
-            </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={onShareHandler}>
-            <View style={styles.button}>
-              <Feather name="send" size={24} color="#545454" />
-              <Text style={styles.textButton}>Share</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-        <TouchableWithoutFeedback onPress={onBookMarkHandler}>
-          <FAIcon name="bookmark-o" size={25} color={'#545454'} />
-        </TouchableWithoutFeedback>
+    <View style={styles.iconsContainer}>
+      <View style={styles.leftIcons}>
+        <TouchableOpacity onPress={onFavoriteHandler}>
+          <View style={styles.button}>
+            {isLiked ? (
+              <ADIcon name="heart" size={24} color={'#e73838'} />
+            ) : (
+              <ADIcon name="hearto" size={24} color={'#545454'} />
+            )}
+            {likeCount && <Text style={styles.textButton}>{likeCount}</Text>}
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onCommentHandler}>
+          <View style={styles.button}>
+            <Fontisto name="comment" size={21} color={'#545454'} />
+            {commentCount && (
+              <Text style={styles.textButton}>{commentCount}</Text>
+            )}
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onShareHandler}>
+          <View style={styles.button}>
+            <Feather name="send" size={24} color="#545454" />
+          </View>
+        </TouchableOpacity>
       </View>
-
-      <View style={{flexDirection: 'row'}}>
-        {!!likeCount && (
-          <Text style={styles.likes}>
-            {likeCount > 1
-              ? `${likeCount} likes     `
-              : `${likeCount} like    `}
-          </Text>
-        )}
-        {!!commentCount && (
-          <Text style={styles.likes}>
-            {commentCount > 1
-              ? `${commentCount} comments`
-              : `${commentCount} comment`}
-          </Text>
-        )}
-      </View>
-      <Text style={styles.caption}>{item.caption}</Text>
-      <Text style={styles.postedAt}>
-        {moment(new Date(Math.abs(item.createdAt))).fromNow()}
-      </Text>
+      <TouchableOpacity onPress={onBookMarkHandler}>
+        <FAIcon name="bookmark-o" size={25} color={'#545454'} />
+      </TouchableOpacity>
     </View>
   );
 };

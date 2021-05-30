@@ -2,7 +2,6 @@ import {useNavigation} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import * as characterActions from '../../store/actions/character';
 import * as dataActions from '../../store/actions/data';
@@ -12,9 +11,10 @@ import Post from '../Post';
 const Feed = () => {
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
-  const feeds = useSelector((state) => state.data.posts);
   const characters = useSelector((state) => state.character.characters);
+  const selected = useSelector((state) => state.character.selected);
 
+  const posts = useSelector((state) => state.data.posts.get(selected));
   const navigation = useNavigation();
 
   const fetchData = async () => {
@@ -22,8 +22,8 @@ const Feed = () => {
     if (!characters.length) {
       dispatch(characterActions.fetchCharacters());
     }
-    if (!feeds.length) {
-      // dispatch(dataActions.fetchData());
+    if (selected && !posts) {
+      dispatch(dataActions.fetchData());
     }
     setIsFetching(false);
   };
@@ -33,8 +33,9 @@ const Feed = () => {
   };
 
   useEffect(() => {
+    console.log('Fetch data when selected change');
     fetchData();
-  }, [navigation]);
+  }, [selected]);
 
   const onRefreshHandler = () => {
     fetchData();
@@ -51,7 +52,7 @@ const Feed = () => {
   return (
     <View>
       <FlatList
-        data={feeds}
+        data={posts}
         onRefresh={onRefreshHandler}
         refreshing={isFetching}
         renderItem={({item, index}) => (
