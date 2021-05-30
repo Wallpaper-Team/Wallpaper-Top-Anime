@@ -4,7 +4,7 @@ export const shareApp = () => {
   const shareOptions = {
     title: 'Share App',
     url:
-      'https://play.google.com/store/apps/details?id=com.ducky.react.wallpaper',
+      'https://play.google.com/store/apps/details?id=com.ducky.wallpaper.topanime',
     failOnCancel: false,
   };
 

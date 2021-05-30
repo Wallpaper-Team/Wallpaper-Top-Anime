@@ -1,14 +1,9 @@
 import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  ImageBackground,
-  StyleSheet,
-} from 'react-native';
+import {ActivityIndicator, Alert, Image, StyleSheet, View} from 'react-native';
 import {useDispatch} from 'react-redux';
-import start_up from '../assets/images/start_up.png';
 import * as authActions from '../store/actions/auth';
+import logo from '../assets/images/logo.gif';
 
 const LoginScreen = (props) => {
   const [error, setError] = useState();
@@ -43,7 +38,8 @@ const LoginScreen = (props) => {
   }, [dispatch]);
 
   return (
-    <ImageBackground source={start_up} style={styles.container}>
+    <View style={styles.container}>
+      <Image source={logo} style={styles.image} />
       {loading ? (
         <ActivityIndicator
           style={styles.googleButton}
@@ -54,11 +50,11 @@ const LoginScreen = (props) => {
         <GoogleSigninButton
           style={styles.googleButton}
           size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Light}
+          color={GoogleSigninButton.Color.Dark}
           onPress={googleLoginHandler}
         />
       )}
-    </ImageBackground>
+    </View>
   );
 };
 
@@ -67,7 +63,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#B0E0E6',
+    backgroundColor: 'black',
+  },
+  image: {
+    width: '80%',
+    height: 100,
+    resizeMode: 'contain',
   },
   googleButton: {
     bottom: '15%',

@@ -6,7 +6,7 @@ import * as helper from '../../database/database-helper';
 
 GoogleSignin.configure({
   webClientId:
-    '368081187364-8ld0t1vk1uqln1cf5ccg1outb0gn5jsc.apps.googleusercontent.com',
+    '780648862225-5nh6f1a55muot70qs861f7u6edk1tdjk.apps.googleusercontent.com',
 });
 
 export const AUTHENTICATE = 'AUTHENTICATE';

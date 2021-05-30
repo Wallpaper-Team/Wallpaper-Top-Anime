@@ -22,20 +22,20 @@ const Feed = () => {
     if (!characters.length) {
       dispatch(characterActions.fetchCharacters());
     }
-    dispatch(dataActions.fetchData());
+    // dispatch(dataActions.fetchData());
     setIsFetching(false);
   };
 
   const onEndReachedHandler = () => {
-    dispatch(dataActions.fetchMoreData());
+    // dispatch(dataActions.fetchMoreData());
   };
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, [navigation]);
 
   const onRefreshHandler = () => {
-    fetchData();
+    // fetchData();
   };
 
   const onItemCharacterClickHandler = (item) => {
@@ -74,21 +74,6 @@ const Feed = () => {
               />
             );
           }}
-          ListHeaderComponent={() => {
-            return (
-              <TouchableOpacity
-                onPress={clearHandler}
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: 70,
-                }}>
-                <MaterialIcons name="clear" size={32} />
-                <Text>Clear</Text>
-              </TouchableOpacity>
-            );
-          }}
         />
       )}
       ListEmptyComponent={() => (
@@ -105,8 +90,6 @@ const Feed = () => {
           </TouchableOpacity>
         </View>
       )}
-      onEndReached={onEndReachedHandler}
-      onEndReachedThreshold={1}
     />
   );
 };

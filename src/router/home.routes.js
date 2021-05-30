@@ -7,7 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfilePictureScreen from '../screens/ProfilePictureScreen';
 import SliderScreen from '../screens/SliderScreen';
 import {shareApp} from '../utils/share';
-import logo from '../assets/images/logo.png';
+import logo from '../assets/images/logo.gif';
 import ic_launcher from '../assets/images/ic_launcher.png';
 import {Image} from 'react-native';
 

@@ -6,7 +6,7 @@ export const CLEAR = 'CLEAR';
 
 export const fetchCharacters = () => async (dispatch) => {
   database()
-    .ref('Characters/')
+    .ref('Animes/')
     .on('value', async (snapshot) => {
       const listCharacter = [];
       snapshot.forEach((item) => {
