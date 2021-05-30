@@ -12,7 +12,7 @@ const Post = ({post}) => {
   };
 
   return (
-    <View>
+    <View style={{backgroundColor: 'white'}}>
       <Header
         imageUri={post.user.userPhoto}
         name={post.user.userName}

@@ -17,29 +17,26 @@ import Header from '../components/Post/components/Header';
 const CommentScreen = ({navigation, route}) => {
   const {item} = route?.params;
   const userInfo = useSelector((state) => state.auth);
+  const selected = useSelector((state) => state.character.selected);
 
   const [comment, setComment] = useState();
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
+    let key;
     const unscribe = database()
       .ref('Comments')
       .orderByChild('postId')
       .equalTo(item)
       .on('child_added', (snapshot) => {
+        key = snapshot.key;
         setComments((comments) => [snapshot.val()].concat(comments));
       });
-    return () =>
-      database()
-        .ref('Comments')
-        .orderByChild('postId')
-        .equalTo(item)
-        .off('child_added', unscribe);
+    return () => database().ref(`Comments/${key}`).off('child_added', unscribe);
   }, []);
 
   const onSendHandler = () => {
     database().ref('Comments').push().set({
-      userId: userInfo.userId,
       userName: userInfo.userName,
       userPhoto: userInfo.userPhoto,
       postId: item,
@@ -47,7 +44,7 @@ const CommentScreen = ({navigation, route}) => {
       createdAt: -new Date().getTime(),
     });
     database()
-      .ref(`Posts/${item}/commentCount`)
+      .ref(`Posts/${selected.name}/${item}/commentCount`)
       .transaction((count) => {
         if (!count) return 1;
         return count + 1;

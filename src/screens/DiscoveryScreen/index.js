@@ -6,7 +6,8 @@ import ImageCustom from '../../components/UI/image';
 import * as dataActions from '../../store/actions/data';
 
 const DiscoveryScreen = (props) => {
-  const images = useSelector((state) => state.data.images);
+  const selected = useSelector((state) => state.character.selected);
+  const images = useSelector((state) => state.data.images.get(selected));
   const [isFetching, setIsFetching] = useState(false);
 
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const DiscoveryScreen = (props) => {
       numColumns={3}
       keyExtractor={(item, index) => item.full + index}
       onEndReached={onEndReachedHandler}
-      onEndReachedThreshold={1}
+      onEndReachedThreshold={3}
       ListEmptyComponent={() => (
         <View
           style={{

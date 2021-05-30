@@ -29,16 +29,15 @@ const Feed = () => {
   };
 
   const onEndReachedHandler = () => {
-    // dispatch(dataActions.fetchMoreData());
+    dispatch(dataActions.fetchMoreData());
   };
 
   useEffect(() => {
-    console.log('Fetch data when selected change');
     fetchData();
   }, [selected]);
 
   const onRefreshHandler = () => {
-    fetchData();
+    dispatch(dataActions.fetchData());
   };
 
   const onItemCharacterClickHandler = (item) => {
@@ -55,6 +54,8 @@ const Feed = () => {
         data={posts}
         onRefresh={onRefreshHandler}
         refreshing={isFetching}
+        onEndReached={onEndReachedHandler}
+        onEndReachedThreshold={1}
         renderItem={({item, index}) => (
           <Post key={item.key + index} post={item} />
         )}
@@ -87,6 +88,9 @@ const Feed = () => {
               );
             }}
           />
+        )}
+        ItemSeparatorComponent={() => (
+          <View style={{height: 15, backgroundColor: 'white'}} />
         )}
       />
     </View>

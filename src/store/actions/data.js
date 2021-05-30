@@ -2,7 +2,7 @@ import database from '@react-native-firebase/database';
 
 export const SET_DATA = 'SET_DATA';
 export const SET_MORE = 'SET_MORE';
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 10;
 
 let lastFeedTime;
 
@@ -14,7 +14,6 @@ export const fetchData = () => async (dispatch, getState) => {
     .orderByChild('createdAt')
     .limitToFirst(PAGE_SIZE)
     .once('value', (snapshot) => {
-      console.log('Snapshot', snapshot);
       const listPost = [];
       const listImage = [];
       snapshot.forEach((item) => {

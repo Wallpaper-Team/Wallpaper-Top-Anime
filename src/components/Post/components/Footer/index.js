@@ -12,7 +12,6 @@ import * as fileActions from '../../../../store/actions/tempFiles';
 import styles from './styles';
 
 const Footer = ({item, likeCnt, commentCount, images}) => {
-  console.log(item);
   const selected = useSelector((state) => state.character.selected);
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(likeCnt);
@@ -77,7 +76,7 @@ const Footer = ({item, likeCnt, commentCount, images}) => {
             ) : (
               <ADIcon name="hearto" size={24} color={'#545454'} />
             )}
-            {likeCount && <Text style={styles.textButton}>{likeCount}</Text>}
+            {!!likeCount && <Text style={styles.textButton}>{likeCount}</Text>}
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={onCommentHandler}>
