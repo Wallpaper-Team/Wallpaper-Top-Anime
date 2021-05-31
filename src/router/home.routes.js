@@ -45,11 +45,6 @@ const HomeRoutes = () => (
         ),
       }}
     />
-    <HomeStack.Screen
-      name="Slider"
-      component={SliderScreen}
-      options={{headerShown: false}}
-    />
     <HomeStack.Screen name="Comment" component={CommentScreen} />
     <HomeStack.Screen name="ProfilePicture" component={ProfilePictureScreen} />
   </HomeStack.Navigator>

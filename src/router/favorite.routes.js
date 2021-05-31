@@ -38,11 +38,6 @@ const FavoriteRoutes = ({navigation}) => (
       component={AlbumScreen}
       options={AlbumScreenOptions}
     />
-    <FavoriteStack.Screen
-      name="Slider"
-      component={SliderScreen}
-      options={{headerShown: false}}
-    />
   </FavoriteStack.Navigator>
 );
 
