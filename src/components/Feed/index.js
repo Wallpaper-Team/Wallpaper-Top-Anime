@@ -49,51 +49,58 @@ const Feed = () => {
   };
 
   return (
-    <View>
-      <FlatList
-        data={posts}
-        onRefresh={onRefreshHandler}
-        refreshing={isFetching}
-        onEndReached={onEndReachedHandler}
-        onEndReachedThreshold={1}
-        renderItem={({item, index}) => (
-          <Post key={item.key + index} post={item} />
-        )}
-        ListEmptyComponent={() => (
-          <View
-            style={{
-              flex: 1,
-              height: 300,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text>No feed, let's create the first one</Text>
-            <TouchableOpacity onPress={createFirstPostHandler}>
-              <Ionicons name="ios-create-outline" size={50} />
-            </TouchableOpacity>
-          </View>
-        )}
-        ListHeaderComponent={() => (
-          <FlatList
-            data={characters}
-            keyExtractor={({key, index}) => key + index}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({item}) => {
-              return (
-                <Character
-                  item={item}
-                  onItemClickHandler={() => onItemCharacterClickHandler(item)}
-                />
-              );
-            }}
-          />
-        )}
-        ItemSeparatorComponent={() => (
-          <View style={{height: 15, backgroundColor: 'white'}} />
-        )}
-      />
-    </View>
+    <FlatList
+      data={posts}
+      onRefresh={onRefreshHandler}
+      refreshing={isFetching}
+      onEndReached={onEndReachedHandler}
+      onEndReachedThreshold={1}
+      renderItem={({item, index}) => (
+        <Post key={item.key + index} post={item} />
+      )}
+      ListHeaderComponent={() => (
+        <FlatList
+          data={characters}
+          keyExtractor={({key, index}) => key + index}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item}) => {
+            if (item === selected) return <View></View>;
+            return (
+              <Character
+                item={item}
+                onItemClickHandler={() => onItemCharacterClickHandler(item)}
+              />
+            );
+          }}
+          ListHeaderComponent={() => (
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingRight: 20,
+                backgroundColor: 'white',
+              }}>
+              <Character item={selected} isSelected={true} />
+            </View>
+          )}
+        />
+      )}
+      ListEmptyComponent={() => (
+        <View
+          style={{
+            flex: 1,
+            height: 300,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text>No feed, let's create the first one</Text>
+          <TouchableOpacity onPress={createFirstPostHandler}>
+            <Ionicons name="ios-create-outline" size={50} />
+          </TouchableOpacity>
+        </View>
+      )}
+      ItemSeparatorComponent={() => <View style={{height: 10}} />}
+    />
   );
 };
 
