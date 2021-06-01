@@ -23,9 +23,7 @@ const FavoriteScreen = ({navigation}) => {
 
   useEffect(() => {
     const unsubscribe = database()
-      .ref('Albums')
-      .orderByChild('uid')
-      .equalTo(userInfo.userId)
+      .ref(`Albums/${userInfo.userId}`)
       .on('value', (snapshot) => {
         const listAlbum = [];
         snapshot.forEach((item) => {
@@ -37,11 +35,7 @@ const FavoriteScreen = ({navigation}) => {
         setAlbums(listAlbum);
       });
     return () =>
-      database()
-        .ref('Albums')
-        .orderByChild('uid')
-        .equalTo(userInfo.userId)
-        .off('value', unsubscribe);
+      database().ref(`Albums/${userInfo.userId}`).off('value', unsubscribe);
   }, []);
 
   const checkTitle = (title) => {
@@ -74,9 +68,8 @@ const FavoriteScreen = ({navigation}) => {
       alert('This album does exist');
       return;
     }
-    const ref = database().ref('Albums').push();
+    const ref = database().ref(`Albums/${userInfo.userId}`).push();
     ref.set({
-      uid: userInfo.userId,
       title: text,
     });
     setDialogVisible(false);

@@ -13,13 +13,14 @@ const AlbumCustom = (props) => {
   const [title, setTitle] = useState();
   const [imageCount, setImageCount] = useState();
   const [images, setImages] = useState([]);
+  const userId = useSelector((state) => state.auth.userId);
 
   const urls = useSelector((state) => state.file.files);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const unscribe = database()
-      .ref(`Albums/${item}`)
+      .ref(`Albums/${userId}/${item}`)
       .on('value', (snapshot) => {
         if (snapshot.val()) {
           const album = snapshot.val();
@@ -38,17 +39,18 @@ const AlbumCustom = (props) => {
           }
         }
       });
-    return () => database().ref(`Albums/${item}`).off('value', unscribe);
+    return () =>
+      database().ref(`Albums/${userId}/${item}`).off('value', unscribe);
   }, [item]);
 
   const deleteHandler = () => {
-    database().ref(`Albums/${item}`).set(null);
+    database().ref(`Albums/${userId}/${item}`).set(null);
   };
 
   const onPressAlbumHandler = () => {
     if (!!urls) {
       database()
-        .ref(`Albums/${item}/images`)
+        .ref(`Albums/${userId}/${item}/images`)
         .transaction((images) => [...new Set(urls.concat(images))]);
       alert('Images added to album');
       dispatch(fileActions.reset());

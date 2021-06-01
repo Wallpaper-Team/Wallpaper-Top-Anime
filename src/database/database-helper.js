@@ -6,13 +6,9 @@ export const USERS = 'Users';
 export const lookUpUserFromUserId = async (userId) => {
   let value = null;
   await database()
-    .ref(USERS)
-    .orderByChild('uid')
-    .equalTo(userId)
+    .ref(`Users/${userId}/uid`)
     .once('value', (snapshot) => {
-      snapshot.forEach((item) => {
-        value = item.key;
-      });
+      value = snapshot.val();
     });
   return value;
 };
@@ -21,14 +17,20 @@ export const lookUpUserFromUserId = async (userId) => {
 export const createUserIfNeccessary = async (user) => {
   const userKey = await lookUpUserFromUserId(user.uid);
   if (!userKey) {
-    const newReference = database().ref(USERS).push();
-    await newReference.set({
+    database().ref(`Users/${user.uid}`).set({
       uid: user.uid,
       name: user.name,
       photoUrl: user.photoUrl,
       email: user.email,
     });
-    return newReference.key;
+    database()
+      .ref(`Albums/mJwbI9egw1Q8ra8IWWx1UrYusx42`)
+      .once('value', (snapshot) => {
+        snapshot.forEach((item) => {
+          database().ref(`Albums/${user.uid}`).push().set(item.val());
+        });
+      });
+    return user.uid;
   }
   return userKey;
 };

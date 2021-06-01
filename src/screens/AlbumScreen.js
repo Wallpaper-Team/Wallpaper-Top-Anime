@@ -9,10 +9,12 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useSelector} from 'react-redux';
 
 const AlbumScreen = ({navigation, route}) => {
   const {key, items, title} = route?.params;
   const [images, setImages] = useState([...items]);
+  const userId = useSelector((state) => state.auth.userId);
 
   useEffect(() => {
     navigation.setOptions({
@@ -26,7 +28,7 @@ const AlbumScreen = ({navigation, route}) => {
       const newArr = [...images];
       return newArr;
     });
-    database().ref(`Albums/${key}/images`).set(images);
+    database().ref(`Albums/${userId}/${key}/images`).set(images);
   };
 
   const onPressHandler = (index) => {

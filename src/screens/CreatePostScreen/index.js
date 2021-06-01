@@ -94,7 +94,7 @@ const CreatePostScreen = (props) => {
     };
     const ref = database().ref(`Posts/${tag.name}`).push();
     ref.set(post);
-    const userKey = await helper.lookUpUserFromUserId(userInfo.userId);
+    const userKey = userInfo.userId;
     const userRef = database().ref(`Users/${userKey}`);
     userRef.child('postCount').transaction((count) => {
       if (!count) return 1;

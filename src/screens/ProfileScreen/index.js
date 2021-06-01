@@ -18,25 +18,18 @@ import {upLoadImage} from '../CreatePostScreen';
 
 const width = Dimensions.get('window').width;
 
-const ProfileScreen = ({navigation, route}) => {
+const ProfileScreen = ({navigation}) => {
   const userId = useSelector((state) => state.auth.userId);
   const [userInfo, setUserInfo] = useState();
-  const [userKey, setUserKey] = useState();
 
   useEffect(() => {
     const unscribe = database()
-      .ref('Users')
-      .orderByChild('uid')
-      .equalTo(userId)
-      .limitToFirst(1)
+      .ref(`Users/${userId}`)
       .on('value', (snapshot) => {
-        snapshot.forEach((item) => {
-          setUserKey(item.key);
-          setUserInfo(item.val());
-        });
+        setUserInfo(snapshot.val());
       });
     return () => {
-      database().ref(`Users/${userKey}`).off('value', unscribe);
+      database().ref(`Users/${userId}`).off('value', unscribe);
     };
   }, []);
 
@@ -53,10 +46,10 @@ const ProfileScreen = ({navigation, route}) => {
         const imageUrl = await upLoadImage(response.uri);
         if (imageUrl) {
           database()
-            .ref(`Users/${userKey}/${type}`)
-            .transaction((url) => imageUrl.medium);
+            .ref(`Users/${userId}/${type}`)
+            .transaction((url) => imageUrl.full);
           if (type === 'photoUrl') {
-            dispatch(authActions.updateAvatar(imageUrl.medium));
+            dispatch(authActions.updateAvatar(imageUrl.full));
           }
         }
       },
