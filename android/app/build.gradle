@@ -131,7 +131,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.ducky.wallpaper.topanime"
+        applicationId "wallpaper.app.ducky.com.deadlysinswallpaper"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

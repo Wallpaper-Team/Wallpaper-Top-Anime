@@ -1,4 +1,4 @@
-package com.ducky.wallpaper.topanime;
+package wallpaper.app.ducky.com.deadlysinswallpaper;
 
 import com.facebook.react.ReactActivity;
 
