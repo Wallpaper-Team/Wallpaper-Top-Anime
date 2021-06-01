@@ -1,9 +1,7 @@
-import {AdEventType} from '@react-native-firebase/admob';
 import database from '@react-native-firebase/database';
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
-  BackHandler,
   FlatList,
   Image,
   StyleSheet,
@@ -11,37 +9,10 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {interstitial} from '../utils/admob/Interstitial';
 
 const AlbumScreen = ({navigation, route}) => {
   const {key, items, title} = route?.params;
   const [images, setImages] = useState([...items]);
-
-  useEffect(() => {
-    const eventListener = interstitial.onAdEvent((type) => {
-      if (type === AdEventType.CLOSED) {
-        interstitial.load();
-      }
-    });
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => {
-        try {
-          interstitial.show();
-        } catch (error) {
-          console.log(error.message);
-        }
-      },
-    );
-
-    interstitial.load();
-
-    return () => {
-      eventListener();
-      backHandler.remove();
-    };
-  }, []);
 
   useEffect(() => {
     navigation.setOptions({

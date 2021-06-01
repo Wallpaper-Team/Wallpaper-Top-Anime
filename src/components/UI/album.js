@@ -71,7 +71,7 @@ const AlbumCustom = (props) => {
           </Text>
         )}
         <TouchableOpacity style={styles.deleteButton} onPress={deleteHandler}>
-          <AntDesign name="delete" size={24} color="black" />
+          <AntDesign name="delete" size={24} color="white" />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -81,7 +81,7 @@ const AlbumCustom = (props) => {
 const styles = StyleSheet.create({
   card: {
     flex: 1 / 2,
-    aspectRatio: 1 / 1,
+    aspectRatio: 4 / 5,
     elevation: 5,
     marginHorizontal: 5,
   },
@@ -95,21 +95,21 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     height: '25%',
-    backgroundColor: 'gray',
-    opacity: 0.5,
+    backgroundColor: '#808080',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     justifyContent: 'center',
+    opacity: 0.8,
   },
   titleText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'black',
+    color: 'white',
   },
   imageCountText: {
-    color: 'black',
+    color: 'white',
   },
   deleteButton: {
     position: 'absolute',
