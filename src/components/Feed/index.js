@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import * as characterActions from '../../store/actions/character';
 import * as dataActions from '../../store/actions/data';
+import {AdView} from '../../utils/admob/AdView';
 import Character from '../Character';
 import Post from '../Post';
 
@@ -56,7 +57,17 @@ const Feed = () => {
       onEndReached={onEndReachedHandler}
       onEndReachedThreshold={1}
       renderItem={({item, index}) => (
-        <Post key={item.key + index} post={item} />
+        <View>
+          {(index + 1) % 5 == 0 && (
+            <AdView
+              loadOnMount={true}
+              index={index}
+              type="video"
+              media={true}
+            />
+          )}
+          <Post key={item.key + index} post={item} />
+        </View>
       )}
       ListHeaderComponent={() => (
         <FlatList

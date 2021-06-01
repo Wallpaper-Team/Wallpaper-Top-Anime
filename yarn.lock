@@ -5751,6 +5751,11 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.13.1, react-is@^16.7.0, react
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-native-admob-native-ads@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-admob-native-ads/-/react-native-admob-native-ads-0.4.1.tgz#1aa4984215d0ba99455422c490cb33a71f62d000"
+  integrity sha512-VNX+0avEtnefe+woeLQi/XGSym44RcbsKcPyecCK7rCELvhaztFHtCRwHO+lv8545p05Gv/UFZaNRYzOHkVC7Q==
+
 react-native-customized-image-picker@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-customized-image-picker/-/react-native-customized-image-picker-1.2.1.tgz#7bf990b4d11a753b35af51a1dd1c369efdfa2b50"
