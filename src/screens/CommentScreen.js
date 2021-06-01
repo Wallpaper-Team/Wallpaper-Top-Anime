@@ -36,6 +36,7 @@ const CommentScreen = ({navigation, route}) => {
   }, []);
 
   const onSendHandler = () => {
+    if (!comment || comment.trim().length == 0) return;
     database().ref('Comments').push().set({
       userName: userInfo.userName,
       userPhoto: userInfo.userPhoto,
@@ -142,6 +143,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: '90%',
     borderColor: 'gray',
+    borderRadius: 20,
   },
   buttonSend: {padding: 10},
   container: {

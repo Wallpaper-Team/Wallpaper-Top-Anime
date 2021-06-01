@@ -13,7 +13,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useSelector} from 'react-redux';
 import AlbumCustom from '../../components/UI/album';
-import Banner from '../../utils/admob/Banner';
 
 const FavoriteScreen = ({navigation}) => {
   const [albums, setAlbums] = useState([]);
@@ -119,7 +118,6 @@ const FavoriteScreen = ({navigation}) => {
           closeDialog={() => setDialogVisible(false)}
         />
       )}
-      <Banner />
       <FlatList
         style={{width: '100%'}}
         data={albums}

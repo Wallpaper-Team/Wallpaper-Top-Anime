@@ -4,10 +4,10 @@ export const SET_DATA = 'SET_DATA';
 export const SET_MORE = 'SET_MORE';
 const PAGE_SIZE = 10;
 
-let lastFeedTime;
+let lastPostTime;
 
 export const fetchData = () => async (dispatch, getState) => {
-  lastFeedTime = -Infinity;
+  lastPostTime = -Infinity;
   const selected = getState().character.selected;
   database()
     .ref(`Posts/${selected.name}`)
@@ -19,7 +19,7 @@ export const fetchData = () => async (dispatch, getState) => {
       snapshot.forEach((item) => {
         const feed = item.val();
         feed.images.forEach((image) => listImage.push(image));
-        lastFeedTime = Math.max(lastFeedTime, feed.createdAt);
+        lastPostTime = Math.max(lastPostTime, feed.createdAt);
         listPost.push({
           key: item.key,
           createdAt: Math.abs(feed.createdAt),
@@ -35,16 +35,18 @@ export const fetchData = () => async (dispatch, getState) => {
         selected: selected,
         posts: listPost,
         images: listImage,
+        lastPostTime: lastPostTime,
       });
     });
 };
 
 export const fetchMoreData = () => async (dispatch, getState) => {
   const selected = getState().character.selected;
+  lastPostTime = getState().data.lastPostTime.get(selected);
   database()
     .ref(`Posts/${selected.name}`)
     .orderByChild('createdAt')
-    .startAt(lastFeedTime + 1)
+    .startAt(lastPostTime + 1)
     .limitToFirst(PAGE_SIZE)
     .once('value', (snapshot) => {
       const listFeed = [];
@@ -52,7 +54,7 @@ export const fetchMoreData = () => async (dispatch, getState) => {
       snapshot.forEach((item) => {
         const feed = item.val();
         feed.images.forEach((image) => listImage.push(image));
-        lastFeedTime = Math.max(lastFeedTime, feed.createdAt);
+        lastPostTime = Math.max(lastPostTime, feed.createdAt);
         listFeed.push({
           key: item.key,
           createdAt: Math.abs(feed.createdAt),
@@ -68,6 +70,7 @@ export const fetchMoreData = () => async (dispatch, getState) => {
         selected: selected,
         posts: listFeed,
         images: listImage,
+        lastPostTime: lastPostTime,
       });
     });
 };
