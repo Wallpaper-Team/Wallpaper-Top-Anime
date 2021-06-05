@@ -28,9 +28,27 @@ export const saveUserAndDispatchAuthenticate = async (dispatch, userInfo) => {
           userEmail: item.email,
           userPhone: item.phone,
           userPhoto: item.photoUrl,
+          isAnonymous: false,
         });
       }
     });
+};
+
+export const signInAnonymously = () => async (dispatch) => {
+  let userInfo;
+  try {
+    userInfo = await auth().signInAnonymously();
+    dispatch({
+      type: AUTHENTICATE,
+      userId: userInfo.user.uid,
+      userName: userInfo.user.displayName,
+      userPhoto: userInfo.user.photoURL,
+      userEmail: userInfo.user.email,
+      isAnonymous: true,
+    });
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const googleLogin = () => async (dispatch) => {

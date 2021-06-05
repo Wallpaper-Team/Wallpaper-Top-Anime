@@ -22,8 +22,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import Header from '../../components/Post/components/Header';
 import ProfilePicture from '../../components/ProfilePicture';
-import * as helper from '../../database/database-helper';
-import * as dataActions from '../../store/actions/data';
 
 const SERVER_URL = 'https://api.imgbb.com/1/upload';
 const KEY_API = '02308d06cea46acb65cdd23ccd651afb';

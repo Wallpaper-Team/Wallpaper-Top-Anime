@@ -7,7 +7,6 @@ import logo from '../assets/images/logo.gif';
 
 const LoginScreen = (props) => {
   const [error, setError] = useState();
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     if (error) {
@@ -15,23 +14,17 @@ const LoginScreen = (props) => {
     }
   }, [error]);
 
-  const googleLoginHandler = () => {
-    setError(null);
-    setLoading(true);
-    try {
-      dispatch(authActions.googleLogin());
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     const tryLogin = async () => {
-      const userData = await authActions.getData();
-      if (userData != null) {
-        setLoading(true);
-        authActions.saveUserAndDispatchAuthenticate(dispatch, userData);
+      try {
+        const userData = await authActions.getData();
+        if (userData != null) {
+          authActions.saveUserAndDispatchAuthenticate(dispatch, userData);
+        } else {
+          dispatch(authActions.signInAnonymously());
+        }
+      } catch (error) {
+        setError(error.message);
       }
     };
     tryLogin();
@@ -40,20 +33,11 @@ const LoginScreen = (props) => {
   return (
     <View style={styles.container}>
       <Image source={logo} style={styles.image} />
-      {loading ? (
-        <ActivityIndicator
-          style={styles.googleButton}
-          size="large"
-          color="blue"
-        />
-      ) : (
-        <GoogleSigninButton
-          style={styles.googleButton}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={googleLoginHandler}
-        />
-      )}
+      <ActivityIndicator
+        style={styles.googleButton}
+        size="large"
+        color="blue"
+      />
     </View>
   );
 };
@@ -69,12 +53,6 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 100,
     resizeMode: 'contain',
-  },
-  googleButton: {
-    bottom: '15%',
-    position: 'absolute',
-    width: 250,
-    height: 60,
   },
 });
 

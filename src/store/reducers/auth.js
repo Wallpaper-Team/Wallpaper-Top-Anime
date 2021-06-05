@@ -7,6 +7,7 @@ const initialState = {
   userEmail: null,
   userPhone: null,
   userPhoto: null,
+  isAnonymous: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -19,6 +20,7 @@ const authReducer = (state = initialState, action) => {
         userPhone: action.userPhone,
         userEmail: action.userEmail,
         userPhoto: action.userPhoto,
+        isAnonymous: action.isAnonymous,
       };
     case UPDATE: {
       return {
@@ -27,6 +29,7 @@ const authReducer = (state = initialState, action) => {
       };
     }
     case LOGOUT:
+      alert('Logged out, continue as anonymous');
       return initialState;
     default:
       return state;
