@@ -15,8 +15,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from '../../store/actions/auth';
 import {upLoadImage} from '../CreatePostScreen';
 import ImagePicker from 'react-native-image-crop-picker';
-
-const width = Dimensions.get('window').width;
+import Rate from 'react-native-rate';
+export const rateAppHandler = () => {
+  const options = {
+    GooglePackageName: 'wallpaper.app.ducky.com.deadlysinswallpaper',
+  };
+  Rate.rate(options, () => {});
+};
 
 const ProfileScreen = ({navigation}) => {
   const userId = useSelector((state) => state.auth.userId);
@@ -132,6 +137,17 @@ const ProfileScreen = ({navigation}) => {
             <Entypo
               style={styles.optionIcon}
               name="log-out"
+              size={24}
+              color="black"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{...styles.buttonContainer, backgroundColor: 'green'}}
+            onPress={rateAppHandler}>
+            <Text style={styles.optionText}>Rate this app</Text>
+            <Entypo
+              style={styles.optionIcon}
+              name="star-outlined"
               size={24}
               color="black"
             />

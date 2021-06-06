@@ -3,8 +3,7 @@ import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import AnonymousScreen from '../screens/AnonymousScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import {shareApp} from '../utils/share';
+import ProfileScreen, {rateAppHandler} from '../screens/ProfileScreen';
 const ProfileStack = createStackNavigator();
 
 const ProfileRoutes = ({navigation}) => {
@@ -33,10 +32,10 @@ const ProfileRoutes = ({navigation}) => {
           ),
           headerRight: () => (
             <Ionicons
-              name="paper-plane-outline"
+              name="star-half-sharp"
               size={25}
               color={'#545454'}
-              onPress={shareApp}
+              onPress={rateAppHandler}
             />
           ),
         }}

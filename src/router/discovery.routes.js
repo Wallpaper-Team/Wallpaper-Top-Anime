@@ -2,7 +2,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DiscoveryScreen from '../screens/DiscoveryScreen';
-import {shareApp} from '../utils/share';
+import {rateAppHandler} from '../screens/ProfileScreen';
 const DiscoveryStack = createStackNavigator();
 
 const DiscoveryRoutes = () => (
@@ -16,10 +16,10 @@ const DiscoveryRoutes = () => (
         },
         headerRight: () => (
           <Ionicons
-            name="paper-plane-outline"
+            name="star-half-outline"
             size={25}
             color={'#545454'}
-            onPress={shareApp}
+            onPress={rateAppHandler}
           />
         ),
       }}
