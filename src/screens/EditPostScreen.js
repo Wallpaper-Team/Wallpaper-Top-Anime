@@ -33,7 +33,7 @@ const EditPostScreen = ({navigation, route}) => {
   const renderItem = (item) => {
     return (
       <View style={styles.card}>
-        <Image style={styles.image} source={{uri: item.item}} />
+        <Image style={styles.image} source={{uri: item.item.path}} />
         <Ionicons
           style={styles.closeButton}
           name="close"

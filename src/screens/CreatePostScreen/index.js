@@ -14,8 +14,7 @@ import {
   View,
 } from 'react-native';
 import FbGrid from 'react-native-fb-image-grid';
-import ImgToBase64 from 'react-native-image-base64';
-import {launchImageLibrary} from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -30,10 +29,9 @@ export const getFileName = (filePath) => {
   return filePath.substring(filePath.lastIndexOf('/') + 1);
 };
 
-export const upLoadImage = async (uri) => {
-  let base64data = await ImgToBase64.getBase64String(uri);
+export const upLoadImage = async (photo) => {
   const formData = new FormData();
-  formData.append('image', base64data);
+  formData.append('image', photo.data);
   formData.append('key', KEY_API);
 
   const result = await axios(SERVER_URL, {
@@ -55,12 +53,11 @@ const CreatePostScreen = (props) => {
   const [canPost, setCanPost] = useState(false);
   const [caption, setCaption] = useState();
   const [images, setImages] = useState([]);
+  const [photos, setPhotos] = useState([]);
   const [tag, setTag] = useState(null);
   const [isPosting, setIsPosting] = useState(false);
 
   const characters = useSelector((state) => state.character.characters);
-
-  const dispatch = useDispatch();
 
   const reset = () => {
     setCaption('');
@@ -134,6 +131,12 @@ const CreatePostScreen = (props) => {
   }, [caption, images, tag]);
 
   useEffect(() => {
+    const photos = [];
+    images.forEach((image) => photos.push(image.path));
+    setPhotos(photos);
+  }, [images]);
+
+  useEffect(() => {
     props.navigation.setOptions({
       headerRight: () => (
         <Feather
@@ -148,9 +151,13 @@ const CreatePostScreen = (props) => {
 
   const pickImageHandler = () => {
     if (isPosting) return;
-    launchImageLibrary({mediaType: 'photo'}, (response) => {
-      if (!response.uri) return;
-      setImages(images.concat([response.uri]));
+    ImagePicker.openPicker({
+      multiple: true,
+      includeBase64: true,
+      mediaType: 'photo',
+    }).then((photos) => {
+      console.log(photos);
+      setImages(images.concat(photos));
     });
   };
 
@@ -219,7 +226,7 @@ const CreatePostScreen = (props) => {
       )}
       <FbGrid
         style={styles.imageGrid}
-        images={images}
+        images={photos}
         onPress={onPressItemHandler}
       />
       <View style={styles.notice}>

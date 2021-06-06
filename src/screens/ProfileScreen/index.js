@@ -9,12 +9,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {launchImageLibrary} from 'react-native-image-picker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {useDispatch, useSelector} from 'react-redux';
 import * as authActions from '../../store/actions/auth';
 import {upLoadImage} from '../CreatePostScreen';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const width = Dimensions.get('window').width;
 
@@ -38,22 +38,25 @@ const ProfileScreen = ({navigation}) => {
     dispatch(authActions.logout());
   };
 
-  const uploadImage = async (type) => {
-    launchImageLibrary(
-      {mediaType: 'photo', maxHeight: width, maxWidth: width},
-      async (response) => {
-        if (!response.uri) return;
-        const imageUrl = await upLoadImage(response.uri);
-        if (imageUrl) {
-          database()
-            .ref(`Users/${userId}/${type}`)
-            .transaction((url) => imageUrl.full);
-          if (type === 'photoUrl') {
-            dispatch(authActions.updateAvatar(imageUrl.full));
-          }
+  const uploadImage = (type) => {
+    ImagePicker.openPicker({
+      width: 400,
+      height: 400,
+      cropping: true,
+      includeBase64: true,
+      mediaType: 'photo',
+    }).then(async (image) => {
+      if (!image.path) return;
+      const imageUrl = await upLoadImage(image);
+      if (imageUrl) {
+        database()
+          .ref(`Users/${userId}/${type}`)
+          .transaction((url) => imageUrl.full);
+        if (type === 'photoUrl') {
+          dispatch(authActions.updateAvatar(imageUrl.full));
         }
-      },
-    );
+      }
+    });
   };
 
   const viewPostsHandler = () => {

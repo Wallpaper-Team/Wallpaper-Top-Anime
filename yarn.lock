@@ -5756,11 +5756,6 @@ react-native-admob-native-ads@^0.4.1:
   resolved "https://registry.yarnpkg.com/react-native-admob-native-ads/-/react-native-admob-native-ads-0.4.1.tgz#1aa4984215d0ba99455422c490cb33a71f62d000"
   integrity sha512-VNX+0avEtnefe+woeLQi/XGSym44RcbsKcPyecCK7rCELvhaztFHtCRwHO+lv8545p05Gv/UFZaNRYzOHkVC7Q==
 
-react-native-customized-image-picker@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-customized-image-picker/-/react-native-customized-image-picker-1.2.1.tgz#7bf990b4d11a753b35af51a1dd1c369efdfa2b50"
-  integrity sha512-cSpS5v0/BosuhiCh0n3K7m/+zZAg86jfH5CT4Iu/380GGFzGPQXzHJemUqDCBhbnqR2QpRcQ9fzDF5QaEMWSbA==
-
 react-native-dialog-input@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/react-native-dialog-input/-/react-native-dialog-input-1.0.8.tgz#6813d3b158bbb85d83a94310f38695d9f2b02682"
@@ -5783,15 +5778,10 @@ react-native-gesture-handler@^1.7.0:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
-react-native-image-base64@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/react-native-image-base64/-/react-native-image-base64-0.1.4.tgz#0a4687740de9b04df63e649c5946fc646bc0f4e9"
-  integrity sha512-WLdzwHdXFRLS9VStG1CG46+t+fcInjVWxKd1+AATElBhaAS3zwDHz7mYIZS1OX4VMuNClwl5G8dowuqUJ9aMGQ==
-
-react-native-image-picker@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-3.5.0.tgz#bfcf6ea49d432a8f065203af1485eaf1605d7cf6"
-  integrity sha512-i3vr3cM/nu+FbpDpW+msxKX5dvFCMo0DIvHgDGxD9r43KgEDHcROavjQSAXjul/WDfMA2dqlR6gqi1AM8JLkvA==
+react-native-image-crop-picker@^0.36.2:
+  version "0.36.2"
+  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.36.2.tgz#fcb35c1a12d805bedbb6d94a87078e86a6c9b49f"
+  integrity sha512-cTauoEHHzx14ZHA7Pt65e7RVnbn1WRYQz2ufTZp9/05EtNDrdsXwNhgtXdWVFbOhYB8qgUFQjy2NelkBOHIH3g==
 
 react-native-iphone-x-helper@^1.2.1:
   version "1.2.1"
