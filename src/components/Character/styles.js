@@ -2,11 +2,21 @@ import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    width: 80,
+    flex: 1,
     backgroundColor: 'white',
+    width: 70,
+    alignItems: 'center',
   },
   name: {
     textAlign: 'center',
+  },
+  nameBordered: {
+    textAlign: 'center',
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: 'gray',
+    opacity: 0.5,
+    padding: 5,
   },
   checked: {
     position: 'absolute',

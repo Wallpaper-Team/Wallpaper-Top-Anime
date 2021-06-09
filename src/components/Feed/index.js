@@ -3,16 +3,14 @@ import React, {useEffect, useState} from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
-import * as characterActions from '../../store/actions/character';
 import * as dataActions from '../../store/actions/data';
 import {AdView} from '../../utils/admob/AdView';
-import Character from '../Character';
 import Post from '../Post';
+import Search from '../Search';
 
 const Feed = () => {
   const dispatch = useDispatch();
   const [isFetching, setIsFetching] = useState(false);
-  const characters = useSelector((state) => state.character.characters);
   const selected = useSelector((state) => state.character.selected);
 
   const posts = useSelector((state) => state.data.posts.get(selected));
@@ -20,9 +18,6 @@ const Feed = () => {
 
   const fetchData = async () => {
     setIsFetching(true);
-    if (!characters.length) {
-      dispatch(characterActions.fetchCharacters());
-    }
     if (selected && !posts) {
       dispatch(dataActions.fetchData());
     }
@@ -41,10 +36,6 @@ const Feed = () => {
     dispatch(dataActions.fetchData());
   };
 
-  const onItemCharacterClickHandler = (item) => {
-    dispatch(characterActions.selectCharacter(item));
-  };
-
   const createFirstPostHandler = () => {
     navigation.navigate('Post');
   };
@@ -55,7 +46,7 @@ const Feed = () => {
       onRefresh={onRefreshHandler}
       refreshing={isFetching}
       onEndReached={onEndReachedHandler}
-      onEndReachedThreshold={1}
+      onEndReachedThreshold={2}
       renderItem={({item, index}) => (
         <View>
           {(index + 1) % 5 == 0 && (
@@ -69,33 +60,7 @@ const Feed = () => {
           <Post key={item.key + index} post={item} />
         </View>
       )}
-      ListHeaderComponent={() => (
-        <FlatList
-          data={characters}
-          keyExtractor={({key, index}) => key + index}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => {
-            if (item === selected) return <View></View>;
-            return (
-              <Character
-                item={item}
-                onItemClickHandler={() => onItemCharacterClickHandler(item)}
-              />
-            );
-          }}
-          ListHeaderComponent={() => (
-            <View
-              style={{
-                flexDirection: 'row',
-                paddingRight: 20,
-                backgroundColor: 'white',
-              }}>
-              <Character item={selected} isSelected={true} />
-            </View>
-          )}
-        />
-      )}
+      ListHeaderComponent={() => <Search showIcon={true} />}
       ListEmptyComponent={() => (
         <View
           style={{

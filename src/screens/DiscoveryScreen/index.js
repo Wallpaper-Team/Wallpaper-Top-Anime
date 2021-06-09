@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {FlatList, Text, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
+import Search from '../../components/Search';
 import ImageCustom from '../../components/UI/image';
 import * as dataActions from '../../store/actions/data';
 
@@ -21,30 +22,33 @@ const DiscoveryScreen = (props) => {
   };
 
   return (
-    <FlatList
-      data={images}
-      refreshing={isFetching}
-      onRefresh={onRefreshHandler}
-      renderItem={({item}) => {
-        return <ImageCustom item={item} />;
-      }}
-      numColumns={3}
-      keyExtractor={(item, index) => item.full + index}
-      onEndReached={onEndReachedHandler}
-      onEndReachedThreshold={3}
-      ListEmptyComponent={() => (
-        <View
-          style={{
-            flex: 1,
-            height: 300,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text>No image, let's create the first one</Text>
-          <MaterialIcons name="find-in-page" size={50} color="gray" />
-        </View>
-      )}
-    />
+    <View>
+      <Search showIcon />
+      <FlatList
+        data={images}
+        refreshing={isFetching}
+        onRefresh={onRefreshHandler}
+        renderItem={({item}) => {
+          return <ImageCustom item={item} />;
+        }}
+        numColumns={3}
+        keyExtractor={(item, index) => item.full + index}
+        onEndReached={onEndReachedHandler}
+        onEndReachedThreshold={3}
+        ListEmptyComponent={() => (
+          <View
+            style={{
+              flex: 1,
+              height: 300,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text>No image, let's create the first one</Text>
+            <MaterialIcons name="find-in-page" size={50} color="gray" />
+          </View>
+        )}
+      />
+    </View>
   );
 };
 
