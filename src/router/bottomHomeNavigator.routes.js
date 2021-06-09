@@ -55,6 +55,7 @@ const BottomHomeNavigator = () => (
     })}
     tabBarOptions={{
       showLabel: false,
+      keyboardHidesTabBar: true,
     }}>
     <Tab.Screen name="Home" component={HomeRoutes} />
     <Tab.Screen name="Discovery" component={DiscoveryRoutes} />
