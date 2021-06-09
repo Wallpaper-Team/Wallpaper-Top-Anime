@@ -47,6 +47,7 @@ const Feed = () => {
       refreshing={isFetching}
       onEndReached={onEndReachedHandler}
       onEndReachedThreshold={2}
+      keyboardShouldPersistTaps="always"
       renderItem={({item, index}) => (
         <View>
           {(index + 1) % 5 == 0 && (

@@ -64,6 +64,7 @@ const Search = (props) => {
           )}
           keyExtractor={({key, index}) => key + index}
           horizontal
+          keyboardShouldPersistTaps="always"
           showsHorizontalScrollIndicator={false}
           renderItem={({item}) => {
             return (

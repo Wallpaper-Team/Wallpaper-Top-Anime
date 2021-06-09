@@ -9,7 +9,7 @@ const FullScreenPreview = ({route}) => {
   const {item} = route?.params;
   useEffect(() => {
     const eventListener = interstitial.onAdEvent((type) => {
-      if (type === AdEventType.CLOSED) {
+      if (type !== AdEventType.LOADED) {
         interstitial.load();
       }
     });
@@ -21,6 +21,7 @@ const FullScreenPreview = ({route}) => {
           interstitial.show();
         } catch (error) {
           console.log(error.message);
+          interstitial.load();
         }
       },
     );

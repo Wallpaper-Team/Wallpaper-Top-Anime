@@ -35,6 +35,7 @@ const DiscoveryScreen = (props) => {
         keyExtractor={(item, index) => item.full + index}
         onEndReached={onEndReachedHandler}
         onEndReachedThreshold={3}
+        keyboardShouldPersistTaps="always"
         ListEmptyComponent={() => (
           <View
             style={{

@@ -167,7 +167,7 @@ const CreatePostScreen = (props) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} keyboardShouldPersistTaps="always">
       <Header
         imageUri={userInfo.userPhoto}
         name={userInfo.userName}
@@ -197,6 +197,7 @@ const CreatePostScreen = (props) => {
             keyExtractor={({key}) => key}
             horizontal
             showsHorizontalScrollIndicator={false}
+            keyboardShouldPersistTaps="always"
             style={styles.container}
             renderItem={({item}) => {
               return (
