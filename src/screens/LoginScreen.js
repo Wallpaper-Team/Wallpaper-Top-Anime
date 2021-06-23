@@ -1,9 +1,8 @@
-import {GoogleSigninButton} from '@react-native-google-signin/google-signin';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Alert, Image, StyleSheet, View} from 'react-native';
 import {useDispatch} from 'react-redux';
-import * as authActions from '../store/actions/auth';
 import logo from '../assets/images/logo.gif';
+import * as authActions from '../store/actions/auth';
 
 const LoginScreen = (props) => {
   const [error, setError] = useState();

@@ -1,3 +1,4 @@
+import Rate from 'react-native-rate';
 import Share from 'react-native-share';
 
 export const shareApp = () => {
@@ -13,4 +14,11 @@ export const shareApp = () => {
   } catch (error) {
     console.log('Error =>', error);
   }
+};
+
+export const rateAppHandler = () => {
+  const options = {
+    GooglePackageName: 'wallpaper.app.ducky.com.deadlysinswallpaper',
+  };
+  Rate.rate(options, () => {});
 };
