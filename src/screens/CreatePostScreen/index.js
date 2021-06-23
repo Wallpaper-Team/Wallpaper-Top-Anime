@@ -156,7 +156,6 @@ const CreatePostScreen = (props) => {
       includeBase64: true,
       mediaType: 'photo',
     }).then((photos) => {
-      console.log(photos);
       setImages(images.concat(photos));
     });
   };

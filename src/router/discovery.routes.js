@@ -14,6 +14,9 @@ const DiscoveryRoutes = () => (
         headerRightContainerStyle: {
           marginRight: 15,
         },
+        headerLeftContainerStyle: {
+          marginLeft: 15,
+        },
         headerRight: () => (
           <Ionicons
             name="star-half-outline"

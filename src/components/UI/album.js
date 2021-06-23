@@ -109,9 +109,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'white',
+    width: '80%',
   },
   imageCountText: {
     color: 'white',
+    width: '80%',
   },
   deleteButton: {
     position: 'absolute',
