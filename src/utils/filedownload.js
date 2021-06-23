@@ -1,8 +1,12 @@
 import {PermissionsAndroid, ToastAndroid} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
-import {getFileName} from '../screens/CreatePostScreen';
 const {config, fs} = RNFetchBlob;
 const PictureDir = fs.dirs.PictureDir;
+
+export const getFileName = (filePath) => {
+  return filePath.substring(filePath.lastIndexOf('/') + 1);
+};
+
 export const downloadImage = async (image_URL) => {
   try {
     const granted = await PermissionsAndroid.request(

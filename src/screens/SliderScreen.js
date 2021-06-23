@@ -17,7 +17,7 @@ const SliderScreen = ({route}) => {
       'hardwareBackPress',
       () => {
         try {
-          //interstitial.show();
+          interstitial.show();
         } catch (error) {
           console.log(error.message);
           interstitial.load();
