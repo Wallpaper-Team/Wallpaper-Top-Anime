@@ -134,8 +134,8 @@ android {
         applicationId "wallpaper.app.ducky.com.deadlysinswallpaper"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 42
-        versionName "4.2"
+        versionCode 43
+        versionName "4.3"
         multiDexEnabled true
     }
     splits {
