@@ -9,10 +9,6 @@ const width = Dimensions.get('window').width;
 
 const Post = ({post}) => {
   const navigation = useNavigation();
-  const viewProfilePictureHandler = () => {
-    navigation.navigate('ProfilePicture', {imageUri: post.user.userPhoto});
-  };
-
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -34,7 +30,6 @@ const Post = ({post}) => {
       <Header
         imageUri={post.user.userPhoto}
         name={post.user.userName}
-        viewProfilePictureHandler={viewProfilePictureHandler}
         createdAt={post.createdAt}
         caption={post.caption}
       />

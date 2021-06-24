@@ -11,8 +11,8 @@ const AnonymousScreen = () => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text style={{margin: 20, textAlign: 'center'}}>
-        You are in anonymous mode, you need login with google to can create a
-        post, add favorite albums,...
+        You are in anonymous mode, you need login with google to can create new
+        albums, add favorite images to albums,...
       </Text>
       <Button title="Login" onPress={loginHandler}></Button>
     </View>

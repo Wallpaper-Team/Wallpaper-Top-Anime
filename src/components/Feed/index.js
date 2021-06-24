@@ -67,11 +67,41 @@ const Feed = ({feedMode}) => {
     setIsRefreshing(false);
   };
 
-  const createFirstPostHandler = () => {
-    navigation.navigate('Post');
+  const renderItem = ({item, index}) => (
+    <View>
+      {(index + 1) % 5 == 0 && (
+        <AdView loadOnMount={true} index={index} type="video" media={true} />
+      )}
+      <Post key={item.key + index} post={item} />
+    </View>
+  );
+
+  const renderImageItem = ({item}) => {
+    return <ImageCustom item={item} />;
   };
 
-  if (isFetching)
+  const renderSearch = () => <Search showIcon={true} />;
+
+  const renderSeparator = () => <View style={{height: 10}} />;
+
+  const renderEmptyItem = () => {
+    if (isEmpty) {
+      return (
+        <View
+          style={{
+            flex: 1,
+            height: 300,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text>There is no item</Text>
+        </View>
+      );
+    }
+    return <></>;
+  };
+
+  const renderLoading = () => {
     return (
       <View
         style={{
@@ -83,6 +113,9 @@ const Feed = ({feedMode}) => {
         <ActivityIndicator size="large" color="blue" />
       </View>
     );
+  };
+
+  if (isFetching) return renderLoading();
 
   if (feedMode)
     return (
@@ -93,40 +126,11 @@ const Feed = ({feedMode}) => {
         onEndReached={onEndReachedHandler}
         onEndReachedThreshold={1}
         keyboardShouldPersistTaps="always"
-        renderItem={({item, index}) => (
-          <View>
-            {(index + 1) % 5 == 0 && (
-              <AdView
-                loadOnMount={true}
-                index={index}
-                type="video"
-                media={true}
-              />
-            )}
-            <Post key={item.key + index} post={item} />
-          </View>
-        )}
-        ListHeaderComponent={() => <Search showIcon={true} />}
-        ItemSeparatorComponent={() => <View style={{height: 10}} />}
-        ListFooterComponent={() => {
-          if (isEmpty) {
-            return (
-              <View
-                style={{
-                  flex: 1,
-                  height: 300,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text>No feed, let's create the first one</Text>
-                <TouchableOpacity onPress={createFirstPostHandler}>
-                  <Ionicons name="ios-create-outline" size={50} />
-                </TouchableOpacity>
-              </View>
-            );
-          }
-          return <></>;
-        }}
+        removeClippedSubviews
+        renderItem={renderItem}
+        ListHeaderComponent={renderSearch}
+        ItemSeparatorComponent={renderSeparator}
+        ListFooterComponent={renderEmptyItem}
       />
     );
 
@@ -135,26 +139,14 @@ const Feed = ({feedMode}) => {
       data={images}
       refreshing={isFetching}
       onRefresh={onRefreshHandler}
-      renderItem={({item}) => {
-        return <ImageCustom item={item} />;
-      }}
+      renderItem={renderImageItem}
+      removeClippedSubviews={true}
       numColumns={3}
       keyExtractor={(item, index) => item.full + index}
       onEndReached={onEndReachedHandler}
       onEndReachedThreshold={3}
       keyboardShouldPersistTaps="always"
-      ListEmptyComponent={() => (
-        <View
-          style={{
-            flex: 1,
-            height: 300,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text>No image, let's create the first one</Text>
-          <MaterialIcons name="find-in-page" size={50} color="gray" />
-        </View>
-      )}
+      ListEmptyComponent={renderEmptyItem}
     />
   );
 };
