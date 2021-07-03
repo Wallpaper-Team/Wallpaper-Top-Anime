@@ -63,6 +63,7 @@ const CommentScreen = ({navigation, route}) => {
         imageUri={userInfo.userPhoto}
         name={userInfo.userName}
         viewProfilePictureHandler={viewProfilePictureHandler}
+        rightIcon={() => <></>}
       />
       <View style={styles.inputArea}>
         <TextInput

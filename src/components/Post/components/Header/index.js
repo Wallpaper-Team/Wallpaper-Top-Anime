@@ -6,7 +6,15 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import ProfilePicture from '../../../ProfilePicture';
 import styles from './styles';
 
-const Header = ({imageUri, name, rightIcon, createdAt, caption}) => {
+const Header = ({
+  imageUri,
+  name,
+  rightIcon,
+  editHandler,
+  deleteHandler,
+  createdAt,
+  caption,
+}) => {
   return (
     <View>
       <View style={styles.container}>
@@ -25,8 +33,16 @@ const Header = ({imageUri, name, rightIcon, createdAt, caption}) => {
         <View style={styles.right}>
           {rightIcon ? (
             rightIcon
+          ) : __DEV__ ? (
+            <OptionsMenu
+              customButton={
+                <Entypo name="dots-three-vertical" size={16} color="black" />
+              }
+              options={['Edit', 'Delete', 'Cancel']}
+              actions={[editHandler, deleteHandler]}
+            />
           ) : (
-            <Entypo name="dots-three-vertical" size={16} color="black" />
+            <></>
           )}
         </View>
       </View>

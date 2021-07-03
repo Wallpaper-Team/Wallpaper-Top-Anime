@@ -10,7 +10,7 @@ const characterReducer = (state = initialState, action) => {
     case SET_CHARACTERS:
       return {
         characters: action.characters,
-        selected: action.characters[3],
+        selected: action.characters[2],
       };
     case SELECT_CHARACTER:
       return {

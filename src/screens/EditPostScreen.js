@@ -4,7 +4,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const EditPostScreen = ({navigation, route}) => {
-  const {items} = route?.params;
+  const {items, saveHandler} = route?.params;
   const [images, setImages] = useState([...items]);
 
   useEffect(() => {
@@ -13,10 +13,8 @@ const EditPostScreen = ({navigation, route}) => {
         <Button
           title="Save"
           onPress={() => {
-            navigation.navigate({
-              name: 'Post',
-              params: {images: images},
-            });
+            saveHandler(images);
+            navigation.pop();
           }}
         />
       ),
@@ -31,18 +29,20 @@ const EditPostScreen = ({navigation, route}) => {
   };
 
   const renderItem = (item) => {
+    console.log(item);
     return (
       <View style={styles.card}>
-        <Image style={styles.image} source={{uri: item.item.path}} />
-        <Ionicons
-          style={styles.closeButton}
-          name="close"
-          size={32}
-          color={'white'}
-          onPress={() => {
-            deleteHandler(item.index);
-          }}
-        />
+        <Image style={styles.image} source={{uri: item.item.medium}} />
+        <View style={styles.closeButton}>
+          <Ionicons
+            name="close"
+            size={32}
+            color={'white'}
+            onPress={() => {
+              deleteHandler(item.index);
+            }}
+          />
+        </View>
       </View>
     );
   };
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     right: 20,
+    backgroundColor: 'gray',
   },
 });
 

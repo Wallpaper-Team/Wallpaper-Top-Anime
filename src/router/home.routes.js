@@ -1,12 +1,11 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Image} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import ic_launcher from '../assets/images/ic_launcher.png';
 import logo from '../assets/images/logo.gif';
 import CommentScreen from '../screens/CommentScreen';
+import EditPostScreen from '../screens/EditPostScreen';
 import HomeScreen from '../screens/HomeScreen';
-import {shareApp} from '../utils/share';
 
 const HomeStack = createStackNavigator();
 
@@ -35,6 +34,7 @@ const HomeRoutes = () => (
       }}
     />
     <HomeStack.Screen name="Comment" component={CommentScreen} />
+    <HomeStack.Screen name="Edit" component={EditPostScreen} />
   </HomeStack.Navigator>
 );
 
