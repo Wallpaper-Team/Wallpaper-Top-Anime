@@ -5785,6 +5785,11 @@ react-native-gesture-handler@^1.7.0:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
+react-native-gif-wallpaper@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-gif-wallpaper/-/react-native-gif-wallpaper-0.1.0.tgz#21d6a8995d8fa580dcf67d23cb5ee0ba55b0866f"
+  integrity sha512-WWShID8dahIfNLneLIg8p17yrlE40e5PqqFvEwuJlMypxTDlxxe11UlGQaUwaFWo8olNBrHQTAJHCa/fYhqa6Q==
+
 react-native-image-crop-picker@^0.36.2:
   version "0.36.2"
   resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.36.2.tgz#fcb35c1a12d805bedbb6d94a87078e86a6c9b49f"

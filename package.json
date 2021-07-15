@@ -31,6 +31,7 @@
     "react-native-dialog-input": "^1.0.8",
     "react-native-fb-image-grid": "^0.0.5",
     "react-native-gesture-handler": "^1.7.0",
+    "react-native-gif-wallpaper": "^0.1.0",
     "react-native-image-crop-picker": "^0.36.2",
     "react-native-manage-wallpaper": "^1.1.2",
     "react-native-option-menu": "^1.1.3",
