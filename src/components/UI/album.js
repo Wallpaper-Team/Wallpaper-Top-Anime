@@ -5,53 +5,49 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
 import * as fileActions from '../../store/actions/tempFiles';
+import * as helper from '../../database/sqlite';
 
-const AlbumCustom = (props) => {
-  const {item} = props;
+const AlbumCustom = ({item, onDeleteHandler}) => {
   const navigation = useNavigation();
   const [imageUrl, setImageUrl] = useState();
   const [title, setTitle] = useState();
   const [imageCount, setImageCount] = useState();
   const [images, setImages] = useState([]);
-  const userId = useSelector((state) => state.auth.userId);
 
   const urls = useSelector((state) => state.file.files);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const unscribe = database()
-      .ref(`Albums/${userId}/${item}`)
-      .on('value', (snapshot) => {
-        if (snapshot.val()) {
-          const album = snapshot.val();
-          if (!album) {
-            return;
-          }
-          setTitle(album.title);
-          if (!!album.images) {
-            setImages(album.images);
-            setImageUrl(album.images[0].medium);
-            setImageCount(album.images.length);
-          } else {
-            setImageUrl(null);
-            setImageCount(0);
-            setImages([]);
-          }
-        }
-      });
-    return () =>
-      database().ref(`Albums/${userId}/${item}`).off('value', unscribe);
-  }, [item]);
+  React.useEffect(() => {
+    setTitle(item.title);
+    fetchImages(item.id);
+    const unsubscribe = navigation.addListener('focus', () => {
+      setTitle(item.title);
+      fetchImages(item.id);
+    });
+    return unsubscribe;
+  }, [navigation, item]);
+
+  const fetchImages = async (albumId) => {
+    const listImage = await helper.getImages(albumId);
+    setImages(listImage);
+    if (listImage && listImage.length != 0) {
+      setImageCount(listImage.length);
+      setImageUrl(listImage[0].medium);
+    }
+  };
 
   const deleteHandler = () => {
-    database().ref(`Albums/${userId}/${item}`).set(null);
+    helper.deleteImageByAlbumID(item.id);
+    helper.deleteAlbumByID(item.id);
+    onDeleteHandler(item);
   };
 
   const onPressAlbumHandler = () => {
     if (!!urls) {
-      database()
-        .ref(`Albums/${userId}/${item}/images`)
-        .transaction((images) => [...new Set(urls.concat(images))]);
+      urls.map((url) => {
+        helper.insertNewImage(url.medium, url.full, item.id);
+      });
+      fetchImages(item.id);
       alert('Images added to album');
       dispatch(fileActions.reset());
       navigation.goBack();

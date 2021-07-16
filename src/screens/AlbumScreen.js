@@ -1,4 +1,3 @@
-import database from '@react-native-firebase/database';
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
@@ -9,12 +8,11 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
+import * as helper from '../database/sqlite';
 
 const AlbumScreen = ({navigation, route}) => {
   const {key, items, title} = route?.params;
   const [images, setImages] = useState([...items]);
-  const userId = useSelector((state) => state.auth.userId);
 
   useEffect(() => {
     navigation.setOptions({
@@ -22,13 +20,13 @@ const AlbumScreen = ({navigation, route}) => {
     });
   }, []);
 
-  const deleteHandler = (index) => {
+  const deleteHandler = (index, id) => {
     setImages((images) => {
       images.splice(index, 1);
       const newArr = [...images];
       return newArr;
     });
-    database().ref(`Albums/${userId}/${key}/images`).set(images);
+    helper.deleteImageByID(id);
   };
 
   const onPressHandler = (index) => {
@@ -43,11 +41,11 @@ const AlbumScreen = ({navigation, route}) => {
         <Image style={styles.image} source={{uri: item.item.medium}} />
         <AntDesign
           style={styles.closeButton}
-          name="delete"
-          size={24}
-          color={'black'}
+          name="close"
+          size={30}
+          color={'white'}
           onPress={() => {
-            deleteHandler(item.index);
+            deleteHandler(item.index, item.item.id);
           }}
         />
       </TouchableOpacity>
@@ -73,6 +71,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     right: 20,
+    padding: 5,
+    borderRadius: 5,
+    backgroundColor: 'gray',
   },
 });
 

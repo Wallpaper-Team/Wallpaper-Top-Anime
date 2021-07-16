@@ -5,11 +5,11 @@ import LoginScreen from '../screens/LoginScreen';
 import RootRoutes from './root.routes';
 
 const AppNavigator = () => {
-  const uid = useSelector((state) => state.auth.userId);
+  const selected = useSelector((state) => state.character.selected);
   return (
     <NavigationContainer>
-      {uid && <RootRoutes />}
-      {!uid && <LoginScreen />}
+      {selected && <RootRoutes />}
+      {!selected && <LoginScreen />}
     </NavigationContainer>
   );
 };

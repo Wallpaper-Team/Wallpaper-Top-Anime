@@ -1,4 +1,3 @@
-import database from '@react-native-firebase/database';
 import React, {useEffect, useState} from 'react';
 import {
   FlatList,
@@ -11,32 +10,23 @@ import {
 import DialogInput from 'react-native-dialog-input';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useSelector} from 'react-redux';
 import AlbumCustom from '../../components/UI/album';
+import * as helper from '../../database/sqlite';
 
 const FavoriteScreen = ({navigation}) => {
   const [albums, setAlbums] = useState([]);
-  const userInfo = useSelector((state) => state.auth);
 
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = database()
-      .ref(`Albums/${userInfo.userId}`)
-      .on('value', (snapshot) => {
-        const listAlbum = [];
-        snapshot.forEach((item) => {
-          listAlbum.push({
-            key: item.key,
-            title: item.val().title,
-          });
-        });
-        setAlbums(listAlbum);
-      });
-    return () =>
-      database().ref(`Albums/${userInfo.userId}`).off('value', unsubscribe);
+    fetchData();
   }, []);
+
+  const fetchData = async () => {
+    const albums = await helper.getAlbums();
+    setAlbums(albums);
+  };
 
   const checkTitle = (title) => {
     return albums.some((album) => {
@@ -68,10 +58,8 @@ const FavoriteScreen = ({navigation}) => {
       alert('This album does exist');
       return;
     }
-    const ref = database().ref(`Albums/${userInfo.userId}`).push();
-    ref.set({
-      title: text,
-    });
+    helper.addNewAlbum(text);
+    fetchData();
     setDialogVisible(false);
     showModal();
   };
@@ -81,6 +69,10 @@ const FavoriteScreen = ({navigation}) => {
     setTimeout(() => {
       setModalVisible(false);
     }, 2000);
+  };
+
+  const onDeleteHandler = (item) => {
+    setAlbums((albums) => albums.filter((album) => album.id !== item.id));
   };
 
   return (
@@ -115,7 +107,7 @@ const FavoriteScreen = ({navigation}) => {
         style={{width: '100%'}}
         data={albums}
         renderItem={({item}) => {
-          return <AlbumCustom item={item.key} />;
+          return <AlbumCustom item={item} onDeleteHandler={onDeleteHandler} />;
         }}
         numColumns={2}
         keyExtractor={(item) => item.key}

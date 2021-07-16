@@ -2,11 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Alert, Image, StyleSheet, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import logo from '../assets/images/logo.gif';
-import * as authActions from '../store/actions/auth';
+import * as charactorActions from '../store/actions/character';
 
 const LoginScreen = (props) => {
   const [error, setError] = useState();
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (error) {
       Alert.alert('An error occurred!', error, [{text: 'Okay'}]);
@@ -14,20 +15,8 @@ const LoginScreen = (props) => {
   }, [error]);
 
   useEffect(() => {
-    const tryLogin = async () => {
-      try {
-        const userData = await authActions.getData();
-        if (userData != null) {
-          authActions.saveUserAndDispatchAuthenticate(dispatch, userData);
-        } else {
-          dispatch(authActions.signInAnonymously());
-        }
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-    tryLogin();
-  }, [dispatch]);
+    dispatch(charactorActions.fetchCharacters());
+  });
 
   return (
     <View style={styles.container}>

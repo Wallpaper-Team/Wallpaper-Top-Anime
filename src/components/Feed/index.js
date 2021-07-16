@@ -1,17 +1,7 @@
-import {useNavigation} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import {ActivityIndicator, FlatList, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import * as characterActions from '../../store/actions/character';
 import * as dataActions from '../../store/actions/data';
-import {AdView} from '../../utils/admob/AdView';
 import Post from '../Post';
 import Search from '../Search';
 import ImageCustom from '../UI/image';
@@ -22,9 +12,7 @@ const Feed = ({feedMode}) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
   const selected = useSelector((state) => state.character.selected);
-  const characters = useSelector((state) => state.character.characters);
   const posts = useSelector((state) => state.data.posts.get(selected));
-  const navigation = useNavigation();
 
   const [images, setImages] = useState([]);
   useEffect(() => {
@@ -42,9 +30,6 @@ const Feed = ({feedMode}) => {
   const fetchData = async () => {
     setIsEmpty(false);
     setIsFetching(true);
-    if (characters.length == 0) {
-      await dispatch(characterActions.fetchCharacters());
-    }
     if (selected && !posts) {
       const res = await dispatch(dataActions.fetchData());
       if (!res) setIsEmpty(true);
@@ -67,22 +52,17 @@ const Feed = ({feedMode}) => {
     setIsRefreshing(false);
   };
 
-  const renderItem = ({item, index}) => (
-    <View>
-      {(index + 1) % 5 == 0 && (
-        <AdView loadOnMount={true} index={index} type="video" media={true} />
-      )}
-      <Post key={item.key + index} post={item} />
-    </View>
-  );
-
-  const renderImageItem = ({item}) => {
-    return <ImageCustom item={item} />;
+  const renderItem = ({item, index}) => {
+    if (feedMode) return <Post key={item.key + index} post={item} />;
+    else return <ImageCustom key={item.full + index} item={item} />;
   };
 
   const renderSearch = () => <Search showIcon={true} />;
 
-  const renderSeparator = () => <View style={{height: 10}} />;
+  const renderSeparator = () => {
+    if (feedMode) return <View style={{height: 10}} />;
+    return null;
+  };
 
   const renderEmptyItem = () => {
     if (isEmpty) {
@@ -117,36 +97,21 @@ const Feed = ({feedMode}) => {
 
   if (isFetching) return renderLoading();
 
-  if (feedMode)
-    return (
-      <FlatList
-        data={posts}
-        onRefresh={onRefreshHandler}
-        refreshing={isRefreshing}
-        onEndReached={onEndReachedHandler}
-        onEndReachedThreshold={1}
-        keyboardShouldPersistTaps="always"
-        removeClippedSubviews
-        renderItem={renderItem}
-        ListHeaderComponent={renderSearch}
-        ItemSeparatorComponent={renderSeparator}
-        ListFooterComponent={renderEmptyItem}
-      />
-    );
-
   return (
     <FlatList
-      data={images}
-      refreshing={isFetching}
+      data={feedMode ? posts : images}
       onRefresh={onRefreshHandler}
-      renderItem={renderImageItem}
-      removeClippedSubviews={true}
-      numColumns={3}
-      keyExtractor={(item, index) => item.full + index}
+      refreshing={isRefreshing}
       onEndReached={onEndReachedHandler}
-      onEndReachedThreshold={3}
+      onEndReachedThreshold={feedMode ? 1 : 3}
+      numColumns={feedMode ? 1 : 3}
       keyboardShouldPersistTaps="always"
-      ListEmptyComponent={renderEmptyItem}
+      removeClippedSubviews
+      renderItem={renderItem}
+      ListHeaderComponent={renderSearch}
+      ItemSeparatorComponent={renderSeparator}
+      ListFooterComponent={renderEmptyItem}
+      keyExtractor={(item, index) => JSON.stringify(item) + index}
     />
   );
 };

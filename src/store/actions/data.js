@@ -2,7 +2,7 @@ import database from '@react-native-firebase/database';
 
 export const SET_DATA = 'SET_DATA';
 export const SET_MORE = 'SET_MORE';
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 10;
 
 let lastPostTime;
 

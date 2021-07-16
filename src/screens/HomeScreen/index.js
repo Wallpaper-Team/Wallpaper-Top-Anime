@@ -4,7 +4,7 @@ import Feed from '../../components/Feed';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const HomeScreen = ({navigation}) => {
-  const [feedMode, setFeedMode] = useState(false);
+  const [feedMode, setFeedMode] = useState(true);
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (

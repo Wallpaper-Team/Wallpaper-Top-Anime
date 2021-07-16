@@ -1,3 +1,4 @@
+import {AdEventType} from '@react-native-firebase/admob';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Alert, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -15,21 +16,14 @@ const OptionsFooter = (props) => {
   const [downloadState, setDownloadState] = useState(0);
   const [isSetting, setIsSetting] = useState(0);
 
-  const [loaded, setLoaded] = useState();
   const [isGifImage, setIsGifImage] = useState();
-  const [imageDownload, setImageDownload] = useState();
 
   useEffect(() => {
     if (props.imageUrl.indexOf('.gif') != -1) {
       setIsGifImage(true);
     }
     const eventListener = interstitial.onAdEvent((type) => {
-      if (type !== AdEventType.LOADED) {
-        setLoaded(false);
-        interstitial.load();
-      } else {
-        setLoaded(true);
-      }
+      if (type !== AdEventType.LOADED) interstitial.load();
     });
 
     interstitial.load();
@@ -40,13 +34,11 @@ const OptionsFooter = (props) => {
   }, []);
 
   const showInterstialAd = () => {
-    if (loaded) {
-      try {
-        if (!__DEV__) interstitial.show();
-      } catch (error) {
-        console.log(error.message);
-        interstitial.load();
-      }
+    try {
+      if (!__DEV__) interstitial.show();
+    } catch (error) {
+      console.log(error.message);
+      interstitial.load();
     }
   };
 

@@ -12,38 +12,39 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
-import Header from '../components/Post/components/Header';
 
-const CommentScreen = ({navigation, route}) => {
+const CommentScreen = ({route}) => {
   const {item} = route?.params;
-  const userInfo = useSelector((state) => state.auth);
-  const selected = useSelector((state) => state.character.selected);
-
   const [comment, setComment] = useState();
   const [comments, setComments] = useState([]);
 
+  const selected = useSelector((state) => state.character.selected);
+
   useEffect(() => {
-    let key;
-    const unscribe = database()
+    database()
       .ref('Comments')
       .orderByChild('postId')
       .equalTo(item)
-      .on('child_added', (snapshot) => {
-        key = snapshot.key;
-        setComments((comments) => [snapshot.val()].concat(comments));
+      .limitToLast(20)
+      .once('value', (snapshot) => {
+        const listComment = [];
+        snapshot.forEach((item) => {
+          listComment.unshift(item.val());
+        });
+        setComments(listComment);
       });
-    return () => database().ref(`Comments/${key}`).off('child_added', unscribe);
   }, []);
 
   const onSendHandler = () => {
     if (!comment || comment.trim().length == 0) return;
-    database().ref('Comments').push().set({
-      userName: userInfo.userName,
-      userPhoto: userInfo.userPhoto,
+    const cmt = {
+      userName: 'Anonymous',
       postId: item,
       comment: comment,
       createdAt: -new Date().getTime(),
-    });
+    };
+    database().ref('Comments').push().set(cmt);
+    setComments((comments) => [cmt, ...comments]);
     database()
       .ref(`Posts/${selected.name}/${item}/commentCount`)
       .transaction((count) => {
@@ -53,18 +54,8 @@ const CommentScreen = ({navigation, route}) => {
     setComment(null);
   };
 
-  const viewProfilePictureHandler = () => {
-    navigation.navigate('ProfilePicture', {imageUri: userInfo.userPhoto});
-  };
-
   return (
     <View style={styles.root}>
-      <Header
-        imageUri={userInfo.userPhoto}
-        name={userInfo.userName}
-        viewProfilePictureHandler={viewProfilePictureHandler}
-        rightIcon={() => <></>}
-      />
       <View style={styles.inputArea}>
         <TextInput
           style={styles.input}
@@ -108,7 +99,7 @@ const CommentScreen = ({navigation, route}) => {
           return (
             <View style={styles.container}>
               <TouchableOpacity onPress={() => {}}>
-                <Image style={styles.image} source={{uri: item.userPhoto}} />
+                <Image style={styles.image} source={{uri: selected.imageUrl}} />
               </TouchableOpacity>
               <View style={styles.content}>
                 <View style={styles.contentHeader}>
